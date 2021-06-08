@@ -113,7 +113,7 @@ def delete(venusdoc_id):
 
 @app.route('/logs')
 def logs():
-    logging.info('Hey, you triggered a custom log entry. Good job!')
+    logging.info('Hey, you triggered a custom log entry. Good job! Well Done!')
     flash(Markup('''You triggered a custom log entry. You can view it in the
         <a href="https://console.cloud.google.com/logs">Cloud Console</a>'''))
     return redirect(url_for('.list'))
