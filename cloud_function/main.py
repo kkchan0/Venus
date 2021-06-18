@@ -18,13 +18,37 @@ def index(request):
         print(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
+    # Decode the Pub/Sub message.
     pubsub_message = envelope["message"]
 
-    name = "World"
     if isinstance(pubsub_message, dict) and "data" in pubsub_message:
-        name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
+        try:
+            data = json.loads(base64.b64decode(pubsub_message["data"]).decode())
 
-    print(f"Hello {name}!")
+        except Exception as e:
+            msg = (
+                "Invalid Pub/Sub message: "
+                "data property is not valid base64 encoded JSON"
+            )
+            print(f"error: {e}")
+            return f"Bad Request: {msg}", 400
 
-    return ("", 204)
+        # Validate the message is a Cloud Storage event.
+        if not data["name"] or not data["bucket"]:
+            msg = (
+                "Invalid Cloud Storage notification: "
+                "expected name and bucket properties"
+            )
+            print(f"error: {msg}")
+            return f"Bad Request: {msg}", 400
+
+        try:
+            image.blur_offensive_images(data)
+            return ("", 204)
+
+        except Exception as e:
+            print(f"error: {e}")
+            return ("", 500)
+
+    return ("", 500)
   
