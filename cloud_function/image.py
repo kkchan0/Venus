@@ -15,10 +15,10 @@ def thumbnail_images(data):
     bucket_name = file_data["bucket"]
     
     print(f"Bucket Name {bucket_name}.")
-    bucket = storage_client.bucket(bucket_name)
+    bucket = storage_client.get_bucket(bucket_name)
     print(f"Bucket  {bucket}.")
-    blob = bucket.blob(file_name)
-    blob.download_to_filename("test.jeg")
+    blob = bucket.get_blob(file_name)
+    #blob.download_to_filename("test.jeg")
     
    # blob = storage_client.get_bucket(bucket_name).get_blob(file_name)
     print(f"Blob {blob}.")
