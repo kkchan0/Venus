@@ -2,16 +2,7 @@ import base64
 import os
 
 from flask import Flask, request
-##########
-from json import load as json_load
-from wand.image import Image
-from google.cloud import storage
 
-with open('config.json') as json_data_file:
-    cfg = json_load(json_data_file)
-
-client = storage.Client()
-############
 import tempfile
 
 from google.cloud import storage, vision
