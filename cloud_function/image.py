@@ -13,6 +13,8 @@ def thumbnail_images(data):
 
     file_name = file_data["name"]
     bucket_name = file_data["bucket"]
+    
+    print(f"Bucket {bucket_name}.")
 
     blob = storage_client.bucket(bucket_name).get_blob(file_name)
     print(f"Blob {blob}.")
