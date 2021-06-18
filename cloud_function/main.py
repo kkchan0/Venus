@@ -43,7 +43,7 @@ def index(request):
             return f"Bad Request: {msg}", 400
 
         try:
-            image.blur_offensive_images(data)
+            image.thumbnail_images(data)
             return ("", 204)
 
         except Exception as e:
