@@ -47,7 +47,7 @@ def __thumbnail(current_blob):
 
     # Blur the image using ImageMagick.
     with Image(filename=temp_local_filename) as image:
-        image.resize("{}x{}".format(100, 100))
+        image.resize((100,100))
         image.save(filename=temp_local_filename)
 
     print(f"Image {file_name} was thumbnail.")
