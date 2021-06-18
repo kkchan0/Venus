@@ -49,25 +49,37 @@ def __thumbnail(current_blob):
     _, temp_local_filename = tempfile.mkstemp()
 
     # Download file from bucket.
-    current_blob.download_to_filename(temp_local_filename)
-    print(f"Image {file_name} was downloaded to {temp_local_filename}.")
+    #current_blob.download_to_filename(temp_local_filename)
+    #print(f"Image {file_name} was downloaded to {temp_local_filename}.")
 
     # Blur the image using ImageMagick.
-    with Image(filename=temp_local_filename) as image:
-        image.resize(100)
-        image.save(filename=temp_local_filename)
+    #with Image(filename=temp_local_filename) as image:
+    #    image.resize(100)
+    #    image.save(filename=temp_local_filename)
+    imagedata = current_blob.download_as_string()
 
+    # Create a new image object and resample it
+    newimage = Image(blob=imagedata)
+    newimage.sample(80,80)
+    # Upload the resampled file to the thumbnails bucket
+    blur_bucket_name = os.getenv("BLURRED_BUCKET_NAME")
+    bucket = client.bucket(blur_bucket_name)
+    newblob = bucket.blob(file_name)
+    newblob.upload_from_string(newimage.make_blob())
+    
     print(f"Image {file_name} was thumbnail.")
+    
+    
 
     # Upload result to a second bucket, to avoid re-triggering the function.
     # You could instead re-upload it to the same bucket + tell your function
     # to ignore files marked as blurred (e.g. those with a "blurred" prefix)
-    blur_bucket_name = os.getenv("BLURRED_BUCKET_NAME")
-    blur_bucket = storage_client.bucket(blur_bucket_name)
-    new_blob = blur_bucket.blob(file_name)
-    new_blob.upload_from_filename(temp_local_filename)
-    print(f"Blurred image uploaded to: gs://{blur_bucket_name}/{file_name}")
+ #   blur_bucket_name = os.getenv("BLURRED_BUCKET_NAME")
+ #   blur_bucket = storage_client.bucket(blur_bucket_name)
+  #  new_blob = blur_bucket.blob(file_name)
+  #  new_blob.upload_from_filename(temp_local_filename)
+    print(f"thumbnail image uploaded to: gs://{blur_bucket_name}/{file_name}")
 
     # Delete the temporary file.
-    os.remove(temp_local_filename)
+   # os.remove(temp_local_filename)
     
