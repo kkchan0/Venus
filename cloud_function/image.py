@@ -38,6 +38,7 @@ def thumbnail_images(data):
   #      print(f"The image {file_name} was detected as OK.")
 
 def __thumbnail(current_blob):
+    print(f"Inside thumb function {current_blob}.")
     file_name = current_blob.name
     _, temp_local_filename = tempfile.mkstemp()
 
