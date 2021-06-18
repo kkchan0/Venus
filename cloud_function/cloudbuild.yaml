@@ -6,5 +6,5 @@ steps:
   - deploy
   - pubsub
   - --region=us-central1
-  - --source=/cloud_function
+  - --source=cloud_function/
   - --trigger-http
