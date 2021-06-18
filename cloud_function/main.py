@@ -18,7 +18,7 @@ def index(request):
         print(f"error: {msg}")
         return f"Bad Request: {msg}", 400
 
-    # Decode the Pub/Sub message.
+    # Decode the Pub/Sub message. Test
     pubsub_message = envelope["message"]
 
     if isinstance(pubsub_message, dict) and "data" in pubsub_message:
