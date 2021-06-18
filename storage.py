@@ -46,8 +46,9 @@ def upload_file(file_stream, filename, content_type):
     filename = _safe_filename(filename)
     print("test")
     print(os.getenv('GOOGLE_STORAGE_BUCKET'))
-    bucketname = os.getenv('GOOGLE_STORAGE_BUCKET') or os.getenv('GOOGLE_CLOUD_PROJECT') + '-bucket'
-
+    bucketname = os.getenv('GOOGLE_STORAGE_BUCKET') or os.getenv(
+        'GOOGLE_CLOUD_PROJECT') + '-bucket'
+    
     # [START venusapp_cloud_storage_client]
     client = storage.Client()
     bucket = client.bucket(bucketname)
