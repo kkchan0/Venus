@@ -15,6 +15,7 @@ def thumbnail_images(data):
     bucket_name = file_data["bucket"]
 
     blob = storage_client.bucket(bucket_name).get_blob(file_name)
+    print(f"Blob {blob}.")
     blob_uri = f"gs://{bucket_name}/{file_name}"
     blob_source = vision.Image(source=vision.ImageSource(image_uri=blob_uri))
 
