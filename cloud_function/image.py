@@ -17,24 +17,22 @@ def thumbnail_images(data):
     print(f"Bucket Name {bucket_name}.")
     bucket = storage_client.get_bucket(bucket_name)
     print(f"Bucket  {bucket}.")
-    print(f"Filename {file_name}.")
-    e_file=encodeURIComponent(file_name)
-    print(f"e_File {e_file}.")
-    blob = bucket.blob(e_file)
+    print(f"Filename {data["name"]}.")
+    blob = bucket.blob(data["name"])
     #blob.download_to_filename("test.jeg")
     
    # blob = storage_client.get_bucket(bucket_name).get_blob(file_name)
     print(f"Blob {blob}.")
-    blob_uri = f"gs://{bucket_name}/{e_file}"
+    blob_uri = f"gs://{bucket_name}/{data["name"]}"
     print(f"Blob URL {blob_uri}.")
     blob_source = vision.Image(source=vision.ImageSource(image_uri=blob_uri))
 
     # Ignore already-blurred files
     if file_name.startswith("thumbnail-"):
-        print(f"The image {e_file} is already thumbnail.")
+        print(f"The image {data["name"]} is already thumbnail.")
         return
 
-    print(f"Analyzing {e_file}.")
+    print(f"Analyzing {data["name"]}.")
 
     result = vision_client.safe_search_detection(image=blob_source)
     detected = result.safe_search_annotation
