@@ -23,8 +23,8 @@ def index(request):
 
     if isinstance(pubsub_message, dict) and "data" in pubsub_message:
         try:
-           # data = json.loads(base64.b64decode(pubsub_message["data"]).decode())
-            data = pubsub_message["data"]
+           data = json.loads(base64.b64decode(pubsub_message["data"]).decode())
+           #data = pubsub_message["data"]
         except Exception as e:
             msg = (
                 "Invalid Pub/Sub message: "
